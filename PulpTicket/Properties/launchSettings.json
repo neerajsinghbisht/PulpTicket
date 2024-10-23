@@ -2,11 +2,28 @@
   "profiles": {
     "PulpTicket": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": true, // Test this if Swagger is configured at the root
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:51063;http://localhost:51064"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sslPort": 44343,
+      "applicationUrl": "http://localhost:52971"
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:52971",
+      "sslPort": 44343
     }
   }
 }

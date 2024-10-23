@@ -5,17 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace PulpTicket.Domain.Repositories
 {
-    internal interface IUserRepository<User>
+    public interface IUserRepository
     {
-        User GetById(Guid id);
-        IEnumerable<User> GetAll();
-        void Add(User entity);
-        void Update(User entity);
-        void Delete(Guid id);
-       
+        Task<User> GetByIdAsync(Guid id);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task AddAsync(User entity);
+        Task UpdateAsync(User entity);
+        Task DeleteAsync(Guid id);
     }
-}
 }

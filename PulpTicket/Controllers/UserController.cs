@@ -1,119 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using Pulpticket.Application.DTOs;
 using PulpTicket.Application.Interfaces;
+using PulpTicket.Application.DTOs;
+using AutoMapper;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace PUlpTicket.Presentation.Controllers
+namespace PulpTicket.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUserServices _userService;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserServices userService)
+        public UsersController(IUserServices userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
-        {
-            try
-            {
-                if (pageNumber <= 0 || pageSize <= 0)
-                {
-                    return BadRequest("Invalid page number or page size.");
-                }
-
-                var users = await _userService.GetAllUsersAsync(pageNumber, pageSize);
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception details
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        // GET: api/Users/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetUser(Guid id)
         {
-            try
-            {
-                var user = await _userService.GetUserByIdAsync(id);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception details
-                return StatusCode(500, "Internal server error");
-            }
+            var userDto = await _userService.GetUserByIdAsync(id);
+            if (userDto == null)
+                return NotFound();
+
+            return Ok(userDto);
         }
 
-        // POST: api/Users
+        [HttpGet]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var userDtos = await _userService.GetAllUsersAsync();
+            return Ok(userDtos);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] User userDto)
+        public async Task<IActionResult> CreateUser([FromBody] UserDtos userDto)
         {
-            try
-            {
-                if (userDto == null)
-                {
-                    return BadRequest("User data is null.");
-                }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                await _userService.AddUserAsync(userDto);
-                return CreatedAtAction(nameof(GetById), new { id = userDto.Id }, userDto);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception details
-                return StatusCode(500, "Internal server error");
-            }
+            var createdUser = await _userService.CreateUserAsync(userDto);
+            return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
         }
 
-        // PUT: api/Users/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UserDto userDto)
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserDtos userDto)
         {
-            try
-            {
-                if (userDto == null || id != userDto.Id)
-                {
-                    return BadRequest("User data is invalid.");
-                }
+            if (id != userDto.Id)
+                return BadRequest("ID mismatch");
 
-                await _userService.UpdateUserAsync(userDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception details
-                return StatusCode(500, "Internal server error");
-            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _userService.UpdateUserAsync(userDto);
+            return NoContent();
         }
 
-        // DELETE: api/Users/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            try
-            {
-                await _userService.DeleteUserAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception details
-                return StatusCode(500, "Internal server error");
-            }
+            await _userService.DeleteUserAsync(id);
+            return NoContent();
         }
     }
 }

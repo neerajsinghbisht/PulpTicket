@@ -1,10 +1,9 @@
-﻿using PulpTicket.Domain.Entities;
+﻿using PulpTicket.Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PulpTicket.Application.DTOs;
 
 namespace PulpTicket.Application.Interfaces
 {
@@ -15,7 +14,5 @@ namespace PulpTicket.Application.Interfaces
         Task<UserDtos> GetUserByIdAsync(Guid userId);
         Task UpdateUserAsync(UserDtos userDto);
         Task DeleteUserAsync(Guid userId);
-        
-       
-}
+    }
 }
