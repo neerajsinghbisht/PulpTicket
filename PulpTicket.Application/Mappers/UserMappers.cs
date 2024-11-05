@@ -1,6 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
-using AutoMapper;
+﻿using AutoMapper;
 using PulpTicket.Application.DTOs;
 using PulpTicket.Domain.Entities;
 

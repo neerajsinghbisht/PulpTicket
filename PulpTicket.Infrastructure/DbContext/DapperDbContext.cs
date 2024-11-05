@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient; // SQL Server-specific connection
 

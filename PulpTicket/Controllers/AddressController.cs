@@ -2,9 +2,7 @@
 using PulpTicket.Application.Interfaces;
 using PulpTicket.Application.DTOs;
 using AutoMapper;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
+
 
 namespace PulpTicket.API.Controllers
 {
@@ -49,9 +47,9 @@ namespace PulpTicket.API.Controllers
         }
 
         [HttpPut("{Address_id}")]
-        public async Task<IActionResult> UpdateAddress(Guid id, [FromBody] AddressDtos addressDto)
+        public async Task<IActionResult> UpdateAddress(Guid Address_id, [FromBody] AddressDtos addressDto)
         {
-            if (id != addressDto.Address_Id)
+            if (Address_id != addressDto.Address_Id)
                 return BadRequest("ID mismatch");
 
             if (!ModelState.IsValid)

@@ -2,6 +2,7 @@
 using PulpTicket.Domain.Repositories;
 using System.Data;
 using Dapper;
+using System.Data.Common;
 
 
 namespace PulpTicket.Infrastructure.Repositories
@@ -42,7 +43,25 @@ namespace PulpTicket.Infrastructure.Repositories
 
         public async Task UpdateAsync(Address entity)
         {
-            var query = "UPDATE dbo.[Address] SET Street_Address = @Street_Address, City = @city, State=@State,Zipcode=@Zipcode ,CreatedAt=@CreatedAt,UpdatedAt=@UpdatedAt,CreatedBy=@CreatedBy,UpdatedBy=@UpdatedBy,IsActive=@IsActive,IsDeleted=@IsDeleted WHERE Address_Id = @Address_Id ";
+            // Check and assign current date if DateTime.MinValue is detected
+            entity.CreatedAt = (entity.CreatedAt == DateTime.MinValue) ? DateTime.Now : entity.CreatedAt;
+            entity.UpdatedAt = (entity.UpdatedAt == DateTime.MinValue) ? DateTime.Now : entity.UpdatedAt;
+
+            var query = @"
+    UPDATE dbo.[Address]
+    SET Street_Address = @Street_Address, 
+        City = @City, 
+        State = @State, 
+        Zipcode = @Zipcode, 
+        CreatedAt = @CreatedAt, 
+        UpdatedAt = @UpdatedAt, 
+        CreatedBy = @CreatedBy, 
+        UpdatedBy = @UpdatedBy, 
+        IsActive = @IsActive, 
+        IsDeleted = @IsDeleted
+    WHERE Address_Id = @Address_Id";
+            
+
             await _dbconnection.ExecuteAsync(query, entity);
         }
 

@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 
 namespace PulpTicket.Domain.Entities
 {
-    public  class User
+    public class Payment
     {
-        public Guid Id { get; set; } 
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public Guid Address_Id { get; set; }
+        public Guid PaymentID { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime Time { get; set; }
+        public string DiscountCouponId { get; set; }
+        public string PaymentMethod { get; set; } // Renamed for clarity
+        public Guid BookingId { get; set; }
+
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid UpdatedBy { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public string Password { get; set; }
-
-        public Address Address { get; set; }
     }
 }
+
+
+

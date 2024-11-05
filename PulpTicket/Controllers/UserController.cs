@@ -2,13 +2,16 @@
 using PulpTicket.Application.Interfaces;
 using PulpTicket.Application.DTOs;
 using AutoMapper;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PulpTicket.API.Controllers
 {
+    [EnableCors("AllowFrontendOrigin")]
     [ApiController]
     [Route("api/[controller]")]
+   
     public class UsersController : ControllerBase
     {
         private readonly IUserServices _userService;

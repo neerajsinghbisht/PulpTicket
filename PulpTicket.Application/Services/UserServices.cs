@@ -12,11 +12,13 @@ namespace PulpTicket.Application.Services
     public class UserServices : IUserServices
     {
         private readonly IUserRepository _userRepository;
+        
         private readonly IMapper _mapper;
 
         public UserServices(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+           
             _mapper = mapper;
         }
 
@@ -29,6 +31,7 @@ namespace PulpTicket.Application.Services
         public async Task<IEnumerable<UserDtos>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
+    
             return _mapper.Map<IEnumerable<UserDtos>>(users);
         }
 

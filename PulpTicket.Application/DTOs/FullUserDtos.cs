@@ -1,0 +1,15 @@
+﻿using PulpTicket.Application.DTOs;
+
+namespace PulpTicket.Application.DTOs
+{
+    internal class FullUserDtos
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public MiniAddressDtos Address { get; set; }
+
+
+    }
+}
